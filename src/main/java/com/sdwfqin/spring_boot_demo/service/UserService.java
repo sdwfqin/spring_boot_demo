@@ -52,6 +52,10 @@ public class UserService {
     public String getToken(String username, String password, HttpServletRequest request) {
         User user = userMapper.getUser(username);
 
+        if (user == null){
+            throw new ServiceException(ResultEnum.LOGIN_ERROR);
+        }
+
         if (!user.getPassword().equals(password)){
             throw new ServiceException(ResultEnum.LOGIN_ERROR);
         }

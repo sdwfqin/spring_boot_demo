@@ -10,4 +10,5 @@ package com.sdwfqin.spring_boot_demo.utils;
 public class Constant {
 
     public static final String DEVICE_TYPE = "device-type";
+    public static final String TOKEN = "token";
 }

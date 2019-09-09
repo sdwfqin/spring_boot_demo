@@ -10,6 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+/**
+ * 请求日志
+ * <p>
+ *
+ * @author 张钦
+ * @date 2019/9/9
+ */
 @Aspect
 @Order(1)
 @Component

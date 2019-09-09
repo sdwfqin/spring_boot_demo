@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-    private Long id;
+    private String id;
     private String name;
     private Integer age;
     private String email;
@@ -16,11 +16,11 @@ public class User implements Serializable {
     private String password;
     private String created_at;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
