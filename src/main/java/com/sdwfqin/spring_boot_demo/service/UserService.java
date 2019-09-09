@@ -64,7 +64,7 @@ public class UserService {
 
         String token = UUID.randomUUID().toString();
 
-        DeviceTokenBean tokenBean = redisService.getObject(user.getId().toString(), DeviceTokenBean.class);
+        DeviceTokenBean tokenBean = redisService.getObject(user.getId(), DeviceTokenBean.class);
 
         if (tokenBean == null) {
             tokenBean = new DeviceTokenBean();
@@ -80,8 +80,8 @@ public class UserService {
             throw new ServiceException(ResultEnum.VALID_ERROR);
         }
 
-        redisService.addObject(user.getId().toString(), tokenBean, 30 * 24 * 60 * 60 * 1000L);
-        redisService.addString(token, user.getId().toString(), 30 * 24 * 60 * 60 * 1000L);
+        redisService.addObject(user.getId(), tokenBean, 30 * 24 * 60 * 60 * 1000L);
+        redisService.addString(token, user.getId(), 30 * 24 * 60 * 60 * 1000L);
 
         return token;
     }

@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class CheckTokenAspect {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private RedisService redisService;
 
@@ -50,8 +49,6 @@ public class CheckTokenAspect {
     public void doBefore() throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-
-        logger.error(request.getServletPath());
 
         String token = request.getHeader(Constant.TOKEN);
         String header = request.getHeader(Constant.DEVICE_TYPE);
