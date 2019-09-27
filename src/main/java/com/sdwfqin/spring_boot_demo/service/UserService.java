@@ -44,7 +44,7 @@ public class UserService {
     public String getPassword(String username) {
         User user = userMapper.getUser(username);
 
-        redisService.addObject(user.getId().toString(), user, 30 * 24 * 60 * 60 * 1000L);
+        redisService.addObject(user.getId(), user, 30 * 24 * 60 * 60 * 1000L);
 
         return user.getPassword();
     }

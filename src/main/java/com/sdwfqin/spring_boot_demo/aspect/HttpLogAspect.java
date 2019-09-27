@@ -1,16 +1,12 @@
 package com.sdwfqin.spring_boot_demo.aspect;
 
+import com.sdwfqin.spring_boot_demo.utils.HttpContextUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -22,12 +18,11 @@ import java.util.Arrays;
  * @author 张钦
  * @date 2019/9/9
  */
+@Slf4j
 @Aspect
-@Order(1)
 @Component
+@Order(1)
 public class HttpLogAspect {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 拦截这个类的所有方法
@@ -42,16 +37,12 @@ public class HttpLogAspect {
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         // 接收到请求，记录请求内容
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-
+        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         // 记录下请求内容
-        logger.info("URL : " + request.getRequestURL().toString());
-        logger.info("HTTP_METHOD : " + request.getMethod());
-        logger.info("IP : " + request.getRemoteAddr());
-        logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-
+        log.info("请求地址 : {}", request.getRequestURL().toString());
+        log.info("HTTP METHOD : {}", request.getMethod());
+        log.info("CLASS_METHOD : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
+        log.info("参数 : {}", Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -63,6 +54,15 @@ public class HttpLogAspect {
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
-        logger.info("RESPONSE : " + ret);
+        log.info("返回值 : {}", ret);
+    }
+
+    @Around("webLog()")
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        Object ob = pjp.proceed();// ob 为方法的返回值
+        log.info("耗时 : {}", System.currentTimeMillis() - startTime);
+        return ob;
     }
 }
+

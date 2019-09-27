@@ -9,8 +9,6 @@ import com.sdwfqin.spring_boot_demo.utils.exception.ServiceException;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -28,8 +26,8 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2019/9/9
  */
 @Aspect
-@Order(2)
 @Component
+@Order(2)
 public class CheckTokenAspect {
 
     @Autowired

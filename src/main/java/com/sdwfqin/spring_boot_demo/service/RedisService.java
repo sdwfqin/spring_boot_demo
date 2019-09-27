@@ -13,6 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Redis 缓存服务
+ * <p>
+ *
+ * @author 张钦
+ * @date 2019/9/9
+ */
 @Repository
 public class RedisService {
 
@@ -43,6 +50,10 @@ public class RedisService {
 
     public void addString(String key, String str, Long time) {
         stringRedisTemplate.opsForValue().set(key, str, time, TimeUnit.MILLISECONDS);
+    }
+
+    public void addString(String key, String str) {
+        stringRedisTemplate.opsForValue().set(key, str);
     }
 
     public <T> T getObject(String key, Class<T> cls) {
